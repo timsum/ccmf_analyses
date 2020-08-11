@@ -1,0 +1,128 @@
+<html>
+
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <style>
+    audio {
+      position: relative;;
+      width:600px;
+      height: 32px;
+      top: 26px;
+    }
+
+    .vartext {
+      width: 600px;
+    }
+
+    .customaudio {
+      position:static;
+      width:600px;
+      height:64px;
+    }
+
+    .graph_img {
+      position:absolute;
+      width: 600px;
+      height: 32px;
+    }
+
+    .hp_slide{
+      position:absolute;
+      width: 600px;
+      height: 32px;
+
+      background-color: rgba(0, 0, 0, 0);
+    }
+
+    .hp_range{
+      position:absolute;
+      width: 600px;
+      height: 32px;
+
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="vartext">
+    The first (A) section of the theme (here called var_0)  is played once by the piano, and once by the violin. The second (B) section is also played once by each instrument.  There are a number of crescendos which don't quite reach their destination.  
+
+The more you remember the theme, the more you will hear it in the variations. The theme is a square 16 bars long, which should meet your expectations (whether you know it or not -- it rhymes).
+
+If you forget the theme while listening to one of the variations, do not hesitate to come back to the theme. Or listen to the first half of the theme, and the second half of a variation.
+
+  </div>
+  
+  <div class="customaudio" id="beethoven_lv_96-01"></div> 
+  <div class="vartext">
+    The first variation is quite abstract, but also familiarly gentle. Violin and Piano exchange music more often, in smooth waves of melody, marked by small swells
+  </div>
+  <div class="customaudio" id="beethoven_lv_96-02"></div> 
+
+  <div class="vartext">
+    The third variation uses little trumpet-announcement rhythms and birdlike trills. The piano and violin trade A and B as in the theme.
+  </div>
+  <div class="customaudio" id="beethoven_lv_96-03"></div> 
+  <div class="vartext">
+    The fourth variation trades A and B, but smooths the contours of the theme, and runs a stream of sixteenth notes in the piano below. It is marked sempre piano. This is kind of important.
+  </div>
+  <div class="customaudio" id="beethoven_lv_96-04"></div> 
+  <div class="customaudio" id="beethoven_lv_96-05"></div>
+  <div class="customaudio" id="beethoven_lv_96-06"></div> 
+  <div class="customaudio" id="beethoven_lv_96-07"></div> 
+  <div class="customaudio" id="beethoven_lv_96-08"></div>
+  <div class="customaudio" id="beethoven_lv_96-09"></div> 
+  <div class="customaudio" id="beethoven_lv_96-10"></div> 
+  <div class="customaudio" id="beethoven_lv_96-11"></div> 
+  <div class="customaudio" id="beethoven_lv_96-12"></div> 
+  <div class="customaudio" id="beethoven_lv_96-13"></div> 
+  <div class="customaudio" id="beethoven_lv_96-14"></div> 
+  <div class="customaudio" id="beethoven_lv_96-15"></div> 
+  <div class="customaudio" id="beethoven_lv_96-16"></div> 
+</body>
+
+</html>
+
+<script>
+  // this should be for all players on the page...
+  var current_opus_string = "beethoven_lv_96-01";
+  var customaudio_divs = document.getElementsByClassName('customaudio');
+  var opus_string = "";
+
+  for (var i = 0; i < customaudio_divs.length; i++) {
+    var html_string = "";
+    opus_string = customaudio_divs[i].id;
+    html_string += '<img class="graph_img"src="img/' + opus_string + '.png">';
+    html_string += '<div class="hp_slide" id="' + opus_string + '_slide"></div>';
+    html_string += '<div class="hp_range" id="' + opus_string + '_range"></div>';
+    html_string += '<audio controls class="player" id="'+ opus_string + '" src="variations/' + opus_string + '.mp3"></audio>'
+    customaudio_divs[i].innerHTML += html_string;
+  }
+
+  var players = document.getElementsByClassName('player'); 
+  var prog_bars = document.getElementsByClassName('hp_range'); 
+  
+  for (var i=0; i<players.length; i++){
+    players[i].addEventListener("click", function(evt) {
+      current_player = evt.target;
+    });
+    players[i].addEventListener("timeupdate", function(evt) {
+        var currentTime = current_player.currentTime;
+        var duration = current_player.duration;
+        var cur_width = (currentTime +.15)/duration * 600;
+
+        $('#' + current_player.id + '_range').stop(true,true).animate({'width':cur_width +'px'},250,'linear');
+    });
+  }
+ 
+  window.addEventListener("play", function(evt)
+{
+    if(window.$_currentlyPlaying && window.$_currentlyPlaying != evt.target)
+    {
+        window.$_currentlyPlaying.pause();
+    } 
+    window.$_currentlyPlaying = evt.target;
+}, true);
+</script>
